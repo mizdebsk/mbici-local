@@ -18,7 +18,7 @@
 
 set -eu
 
-plan=/home/kojan/git/mbici-config/plan/bootstrap-maven-rawhide.xml
+plan=/home/kojan/git/mbici-config/plan/bootstrap-all-rawhide.xml
 platform=/home/kojan/git/mbici-config/platform/rawhide-jdk.xml
 resultDir=/mnt/nfs/mbi-result/local
 cacheDir=/mnt/nfs/mbi-cache
