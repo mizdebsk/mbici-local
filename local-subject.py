@@ -24,7 +24,7 @@ def resolve_ref(scm, ref):
     p = Popen(["git", "-C", scm, "rev-parse", ref], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate(b"")
     if p.returncode != 0:
-        raise Exception(f'git rev-parse failed with exit code {p.returncode}')
+        raise Exception(f'git rev-parse failed with exit code {p.returncode}; stderr: {err}')
     return output.decode().split()[0]
 
 parser = argparse.ArgumentParser()
