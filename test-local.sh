@@ -28,7 +28,7 @@ PATH=$PATH:/home/kojan/git/mbici-workflow/target
 rm -rf test/
 mkdir test
 
-echo === Generating Test Subject from PRs... >&2
+echo === Generating Test Subject... >&2
 ./local-subject.py -plan "$plan" $@ >test/subject.xml
 
 echo === Generating Workflow... >&2
@@ -37,15 +37,6 @@ mbici-wf generate -plan "$plan" \
      -subject test/subject.xml \
      -workflow test/workflow.xml \
 #     -validate
-
-echo === Generating initial report... >&2
-mbici-wf report \
-     -plan "$plan" \
-     -platform "$platform" \
-     -subject test/subject.xml \
-     -workflow test/workflow.xml \
-     -resultDir "$resultDir" \
-     -reportDir test/report
 
 echo === Running Workflow... >&2
 mbici-wf run \
@@ -59,7 +50,7 @@ mbici-wf run \
      -cacheDir "$cacheDir" \
      -workDir "$workDir"
 
-echo === Generating final report... >&2
+echo === Generating report... >&2
 rm -rf test/report/
 mbici-wf report \
      -plan "$plan" \
