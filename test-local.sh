@@ -23,39 +23,41 @@ platform=/home/kojan/git/mbici-config/platform/rawhide-jdk.xml
 resultDir=/mnt/nfs/mbi-result/local
 cacheDir=/mnt/nfs/mbi-cache
 workDir=/tmp
-PATH=$PATH:/home/kojan/git/mbici-workflow/target
 
 rm -rf test/
 mkdir test
 
 echo === Generating Test Subject... >&2
-./local-subject.py -plan "$plan" $@ >test/subject.xml
+mbici-wf local-subject \
+     --plan "$plan" \
+     --scm /home/kojan/tmp/fp \
+     --ref rawhide \
+     --subject test/subject.xml
 
 echo === Generating Workflow... >&2
-mbici-wf generate -plan "$plan" \
-     -platform "$platform" \
-     -subject test/subject.xml \
-     -workflow test/workflow.xml \
-#     -validate
+mbici-wf generate \
+     --plan "$plan" \
+     --platform "$platform" \
+     --subject test/subject.xml \
+     --workflow test/workflow.xml
 
 echo === Running Workflow... >&2
-mbici-wf run \
-     -kubernetesNamespace mbici-local \
-     -maxCheckoutTasks 10 \
-     -maxSrpmTasks 500 \
-     -maxRpmTasks 200 \
-     -maxValidateTasks 20 \
-     -workflow test/workflow.xml \
-     -resultDir "$resultDir" \
-     -cacheDir "$cacheDir" \
-     -workDir "$workDir"
+mbici-wf kube-exec \
+     --namespace mbici-local \
+     --max-checkout-tasks 10 \
+     --max-srpm-tasks 500 \
+     --max-rpm-tasks 200 \
+     --workflow test/workflow.xml \
+     --result-dir "$resultDir" \
+     --cache-dir "$cacheDir" \
+     --work-dir "$workDir"
 
 echo === Generating report... >&2
 rm -rf test/report/
 mbici-wf report \
-     -plan "$plan" \
-     -platform "$platform" \
-     -subject test/subject.xml \
-     -workflow test/workflow.xml \
-     -resultDir "$resultDir" \
-     -reportDir test/report
+     --plan "$plan" \
+     --platform "$platform" \
+     --subject test/subject.xml \
+     --workflow test/workflow.xml \
+     --result-dir "$resultDir" \
+     --report-dir test/report
