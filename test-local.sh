@@ -31,7 +31,7 @@ echo === Generating Test Subject... >&2
 mbici-wf local-subject \
      --plan "$plan" \
      --scm /home/kojan/tmp/fp \
-     --ref rawhide \
+     --ref HEAD \
      --subject test/subject.xml
 
 echo === Generating Workflow... >&2
