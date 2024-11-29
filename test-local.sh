@@ -26,6 +26,7 @@ workDir=/tmp
 
 rm -rf test/
 mkdir test
+mkdir test/result
 
 echo === Generating Test Subject... >&2
 mbici-wf local-subject \
@@ -48,6 +49,7 @@ mbici-wf kube-exec \
      --max-srpm-tasks 500 \
      --max-rpm-tasks 200 \
      --workflow test/workflow.xml \
+     --link-dir test/result \
      --result-dir "$resultDir" \
      --cache-dir "$cacheDir" \
      --work-dir "$workDir"
